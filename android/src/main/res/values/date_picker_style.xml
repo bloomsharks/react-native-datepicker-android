@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="date_picker_selectedTextColor">#1B252E</color>
+    <color name="date_picker_textColor">#A9ABB1</color>
+    <color name="date_picker_dividerColor">@android:color/transparent</color>
+    <dimen name="date_picker_dividerDistance">28dp</dimen>
+    <dimen name="date_picker_dividerThickness">1dp</dimen>
+    <bool name="date_picker_fadingEdgeEnabled">false</bool>
+    <fraction name="date_picker_lineSpacingMultiplier">0.36</fraction>
+    <dimen name="date_picker_selectedTextSize">18sp</dimen>
+    <dimen name="date_picker_textSize">18sp</dimen>
+
+
+
+
+</resources>

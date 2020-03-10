@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="150dp">
+
+    <com.bloomhigh.datepicker.NumberPicker
+        android:id="@+id/pMonth"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:dividerPadding="0dp"
+        android:paddingRight="12dp"
+        app:layout_constraintEnd_toStartOf="@+id/midLeft"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:np_dividerColor="@color/date_picker_dividerColor"
+        app:np_dividerDistance="@dimen/date_picker_dividerDistance"
+        app:np_dividerThickness="@dimen/date_picker_dividerThickness"
+        app:np_fadingEdgeEnabled="@bool/date_picker_fadingEdgeEnabled"
+        app:np_lineSpacingMultiplier="@fraction/date_picker_lineSpacingMultiplier"
+        app:np_selectedTextAlign="selectedTextAlignRight"
+        app:np_selectedTextColor="@color/date_picker_selectedTextColor"
+        app:np_selectedTextSize="@dimen/date_picker_selectedTextSize"
+        app:np_selectedTypeface="@font/proxima_nova_medium"
+        app:np_textAlign="textAlignRight"
+        app:np_textColor="@color/date_picker_textColor"
+        app:np_textSize="@dimen/date_picker_textSize"
+        app:np_typeface="@font/proxima_nova_medium"
+        app:np_wheelItemCount="5"
+        tools:np_formatter="Month" />
+
+    <com.bloomhigh.datepicker.NumberPicker
+        android:id="@+id/pDay"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:dividerPadding="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:np_dividerColor="@color/date_picker_dividerColor"
+        app:np_dividerDistance="@dimen/date_picker_dividerDistance"
+        app:np_dividerThickness="@dimen/date_picker_dividerThickness"
+        app:np_fadingEdgeEnabled="@bool/date_picker_fadingEdgeEnabled"
+        app:np_lineSpacingMultiplier="@fraction/date_picker_lineSpacingMultiplier"
+        app:np_selectedTextAlign="selectedTextAlignCenter"
+        app:np_selectedTextColor="@color/date_picker_selectedTextColor"
+        app:np_selectedTextSize="@dimen/date_picker_selectedTextSize"
+        app:np_selectedTypeface="@font/proxima_nova_medium"
+        app:np_textAlign="textAlignCenter"
+        app:np_textColor="@color/date_picker_textColor"
+        app:np_textSize="@dimen/date_picker_textSize"
+        app:np_typeface="@font/proxima_nova_medium"
+        app:np_wheelItemCount="5"
+        tools:np_formatter="Day" />
+
+    <com.bloomhigh.datepicker.NumberPicker
+        android:id="@+id/pYear"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:dividerPadding="0dp"
+        android:paddingLeft="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/midRight"
+        app:layout_constraintTop_toTopOf="parent"
+        app:np_dividerColor="@color/date_picker_dividerColor"
+        app:np_dividerDistance="@dimen/date_picker_dividerDistance"
+        app:np_dividerThickness="@dimen/date_picker_dividerThickness"
+        app:np_fadingEdgeEnabled="@bool/date_picker_fadingEdgeEnabled"
+        app:np_lineSpacingMultiplier="@fraction/date_picker_lineSpacingMultiplier"
+        app:np_selectedTextAlign="selectedTextAlignLeft"
+        app:np_selectedTextColor="@color/date_picker_selectedTextColor"
+        app:np_selectedTextSize="@dimen/date_picker_selectedTextSize"
+        app:np_selectedTypeface="@font/proxima_nova_medium"
+        app:np_textAlign="textAlignLeft"
+        app:np_textColor="@color/date_picker_textColor"
+        app:np_textSize="@dimen/date_picker_textSize"
+        app:np_typeface="@font/proxima_nova_medium"
+        app:np_wheelItemCount="5"
+        tools:np_formatter="Year" />
+
+    <View
+        android:id="@+id/centerVerticalGuideLine"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/pDay"
+        app:layout_constraintTop_toTopOf="@+id/pDay" />
+
+    <View
+        android:id="@+id/horizontalTop"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginBottom="14dp"
+        android:background="#E9EBEF"
+        app:layout_constraintBottom_toTopOf="@+id/centerVerticalGuideLine" />
+
+    <View
+        android:id="@+id/horizontalBottom"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="14dp"
+        android:background="#E9EBEF"
+        app:layout_constraintTop_toBottomOf="@+id/centerVerticalGuideLine" />
+
+    <View
+        android:id="@+id/midLeft"
+        android:layout_width="6dp"
+        android:layout_height="1dp"
+        android:background="#1B252E"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/pMonth"
+        app:layout_constraintEnd_toStartOf="@+id/pDay"
+        app:layout_constraintTop_toTopOf="@+id/pMonth" />
+
+    <View
+        android:id="@+id/midRight"
+        android:layout_width="6dp"
+        android:layout_height="1dp"
+        android:background="#1B252E"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/pDay"
+        app:layout_constraintTop_toTopOf="@+id/pDay" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/gradient_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/gradient_bot"
+        app:layout_constraintBottom_toBottomOf="@+id/pDay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
