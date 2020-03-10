@@ -112,8 +112,6 @@ class BHDatePicker @JvmOverloads constructor(
         pDay.value = day
         pMonth.value = month
         pYear.value = year
-
-        onChange()
     }
 
     fun setMinYear(minYear: Int) {
