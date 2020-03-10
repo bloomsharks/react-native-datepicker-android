@@ -31,7 +31,8 @@ class BHDatePicker @JvmOverloads constructor(
     private val months = DateFormatSymbols().months
     private val c = Calendar.getInstance()
     private var vibe: Vibrator?
-    private val debouncer = Debouncer()
+    private val vibeDebouncer = Debouncer()
+    private val onChangeDebouncer = Debouncer()
 
 
     init {
@@ -72,12 +73,16 @@ class BHDatePicker @JvmOverloads constructor(
 
         val valueChangeListener = NumberPicker.OnValueChangeListener { p, o, n ->
             vibrate()
-            onChange()
+            onChangeDebouncer.debounce(Nothing::class, onChangeRunnable, 150, TimeUnit.MILLISECONDS)
         }
 
         pYear.setOnValueChangedListener(valueChangeListener)
         pDay.setOnValueChangedListener(valueChangeListener)
         pMonth.setOnValueChangedListener(valueChangeListener)
+    }
+
+    private val onChangeRunnable = {
+        onChange()
     }
 
     private fun onChange() {
@@ -138,6 +143,6 @@ class BHDatePicker @JvmOverloads constructor(
         }
     }
     private fun vibrate() {
-        debouncer.debounce(Nothing::class, vibrateRunnable, 50, TimeUnit.MILLISECONDS)
+        vibeDebouncer.debounce(Nothing::class, vibrateRunnable, 50, TimeUnit.MILLISECONDS)
     }
 }
