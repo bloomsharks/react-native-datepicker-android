@@ -26,6 +26,7 @@
         app:np_textAlign="textAlignRight"
         app:np_textColor="@color/date_picker_textColor"
         app:np_textSize="@dimen/date_picker_textSize"
+        app:np_wrapSelectorWheel="false"
         app:np_typeface="@font/proxima_nova_medium"
         app:np_wheelItemCount="5"
         tools:np_formatter="Month" />
@@ -50,6 +51,7 @@
         app:np_textAlign="textAlignCenter"
         app:np_textColor="@color/date_picker_textColor"
         app:np_textSize="@dimen/date_picker_textSize"
+        app:np_wrapSelectorWheel="false"
         app:np_typeface="@font/proxima_nova_medium"
         app:np_wheelItemCount="5"
         tools:np_formatter="Day" />
@@ -75,6 +77,7 @@
         app:np_textAlign="textAlignLeft"
         app:np_textColor="@color/date_picker_textColor"
         app:np_textSize="@dimen/date_picker_textSize"
+        app:np_wrapSelectorWheel="false"
         app:np_typeface="@font/proxima_nova_medium"
         app:np_wheelItemCount="5"
         tools:np_formatter="Year" />

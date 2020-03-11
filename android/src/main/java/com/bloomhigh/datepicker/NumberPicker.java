@@ -38,8 +38,6 @@ import androidx.annotation.IntDef;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 
-import com.bloomhigh.datepicker.R;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.text.DecimalFormatSymbols;
@@ -494,7 +492,7 @@ public class NumberPicker extends LinearLayout {
     /**
      * User choice on whether the selector wheel should be wrapped.
      */
-    private boolean mWrapSelectorWheelPreferred = true;
+    private boolean mWrapSelectorWheelPreferred = false;
 
     /**
      * Divider for showing item to be selected while scrolling
@@ -1555,11 +1553,11 @@ public class NumberPicker extends LinearLayout {
      * value) gets updated.
      */
     private void updateWrapSelectorWheel() {
-        mWrapSelectorWheel = isWrappingAllowed() && mWrapSelectorWheelPreferred;
+        mWrapSelectorWheel = false;
     }
 
     private boolean isWrappingAllowed() {
-        return mMaxValue - mMinValue >= mSelectorIndices.length - 1;
+        return false;
     }
 
     /**

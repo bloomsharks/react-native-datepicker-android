@@ -22,9 +22,9 @@ const App: () => React$Node = () => {
           position: 'absolute',
           bottom: 0,
         }}
-        value="2014-12-01"
-        minDate="2013-01-02"
-        maxDate="2015-01-01"
+        value="2014-05-12"
+        minDate="1920-03-11"
+        maxDate="2016-03-11"
         onValueChange={event => {
           setSelectedDate(event.date);
         }}
