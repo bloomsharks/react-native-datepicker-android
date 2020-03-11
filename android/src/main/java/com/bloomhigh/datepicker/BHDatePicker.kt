@@ -68,7 +68,7 @@ class BHDatePicker @JvmOverloads constructor(
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         minimumDate = CustomDate("${year - DEFAULT_MAX_YEARS}-$month-$day")
-        maximumDate = CustomDate("${year - DEFAULT_MIN_YEARS}-$month-$day}")
+        maximumDate = CustomDate("${year - DEFAULT_MIN_YEARS}-$month-$day")
 
         setInitialState()
 
