@@ -7,8 +7,6 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View.OnTouchListener
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
@@ -55,8 +53,8 @@ class BHDatePicker @JvmOverloads constructor(
 
         pYear.setFormatter { "$it" }
         pMonth.setFormatter {
-            if (it < months.size) {
-                months[it]
+            if (it - 1 in 0..months.size) {
+                months[it - 1]
             } else {
                 "$it ${months.size}"
             }
@@ -81,20 +79,19 @@ class BHDatePicker @JvmOverloads constructor(
     }
 
     private fun setListeners() {
-        val touchListener = OnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                val previous = pDay.maxValue
-                val new = calcMaxDayForMonth()
-                if (previous != new) {
-                    pDay.maxValue = new
-                }
-            }
-            super.onTouchEvent(event)
-        }
-        pMonth.setOnTouchListener(touchListener)
-        pYear.setOnTouchListener(touchListener)
+//        val touchListener = OnTouchListener { _, event ->
+//            if (event.action == MotionEvent.ACTION_UP) {
+//                val previous = pDay.maxValue
+//                val new = calcMaxDayForMonth()
+//                if (previous != new) {
+//                    pDay.maxValue = new
+//                }
+//            }
+//            super.onTouchEvent(event)
+//        }
+//        pMonth.setOnTouchListener(touchListener)
+//        pYear.setOnTouchListener(touchListener)
         val valueChangeListener = NumberPicker.OnValueChangeListener { _, _, _ ->
-            recalcMinMax()
             vibrate()
             onChangeDebouncer.debounce(Nothing::class, onChangeRunnable, 150, TimeUnit.MILLISECONDS)
         }
@@ -116,19 +113,25 @@ class BHDatePicker @JvmOverloads constructor(
         pYear.value = maximumDate.year()
 
         pDay.minValue = 1
-        pDay.maxValue = calcMaxDayForMonth()
+        pDay.maxValue = RecalcLogic.calcMaxDayForDate(getCurrentDate())
     }
 
     private val onChangeRunnable = {
+        recalcMinMax()
         onChange()
     }
 
     private fun onChange() {
+        callback?.onDateSelected(getCurrentDate().toString())
+//        postReactEvent(result)
+    }
+
+    private fun getCurrentDate(): CustomDate {
         val year = "${pYear.value}"
-        val month = if (pMonth.value + 1 < 10) {
-            "0${pMonth.value + 1}"
+        val month = if (pMonth.value< 10) {
+            "0${pMonth.value}"
         } else {
-            "${pMonth.value + 1}"
+            "${pMonth.value}"
         }
         val day = if (pDay.value < 10) {
             "0${pDay.value}"
@@ -136,9 +139,7 @@ class BHDatePicker @JvmOverloads constructor(
             "${pDay.value}"
         }
         val result = "$year-$month-$day"
-
-        callback?.onDateSelected(result)
-        postReactEvent(result)
+        return CustomDate(result)
     }
 
     private fun postReactEvent(selectedDate: String) {
@@ -153,18 +154,25 @@ class BHDatePicker @JvmOverloads constructor(
     }
 
     private fun setMaxMonth(maxMonth: Int) {
+        println("XPXPX setMaxMonth ${maxMonth - 1}")
         pMonth.maxValue = maxMonth - 1
     }
 
     private fun setMinMonth(minMonth: Int) {
+        if(minMonth < 1) {
+            throw Exception("still using 0 index")
+        }
+        println("XPXPX setMinMonth $minMonth")
         pMonth.minValue = minMonth
     }
 
     private fun setMaxDay(maxDay: Int) {
+        println("XPXPX setMaxDay $maxDay")
         pDay.maxValue = maxDay
     }
 
     private fun setMinDay(minDay: Int) {
+        println("XPXPX setMinDay $minDay")
         pDay.minValue = minDay
     }
 
@@ -174,6 +182,7 @@ class BHDatePicker @JvmOverloads constructor(
         if (current.isAfter(maximumDate)) {
             current = maximumDate
         }
+        println("setCurrentDate($current)")
 
         pDay.value = current.day()
         pMonth.value = current.month()
@@ -181,18 +190,18 @@ class BHDatePicker @JvmOverloads constructor(
         recalcMinMax()
     }
 
-    private fun recalcMinMax() = RecalcLogic.recalcMinMax(
-        year = pYear.value,
-        month = pMonth.value,
-        day = pDay.value,
-        maximumDate = maximumDate,
-        minimumDate = minimumDate,
-        setMaxDay = ::setMaxDay,
-        setMinDay = ::setMinDay,
-        setMaxMonth = ::setMaxMonth,
-        setMinMonth = ::setMinMonth,
-        calcMaxDayForMonth = ::calcMaxDayForMonth
-    )
+    private fun recalcMinMax() {
+        with(RecalcLogic.recalcMinMax(
+            currentDate = getCurrentDate(),
+            maximumDate = maximumDate,
+            minimumDate = minimumDate
+        )) {
+            pMonth.minValue = this.minMonth
+            pMonth.maxValue = this.maxMonth
+            pDay.minValue = this.minDay
+            pDay.maxValue = this.maxDay
+        }
+    }
 
     class CustomDate(dateString: String) {
         private val x = dateString.split("-")
@@ -219,14 +228,6 @@ class BHDatePicker @JvmOverloads constructor(
         maximumDate = CustomDate(maxDate)
         pYear.maxValue = maximumDate.year()
         recalcMinMax()
-    }
-
-    private fun calcMaxDayForMonth(): Int {
-        return GregorianCalendar(
-            pYear.value,
-            pMonth.value,
-            1
-        ).getActualMaximum(Calendar.DAY_OF_MONTH)
     }
 
     private val vibrateRunnable = Runnable {
