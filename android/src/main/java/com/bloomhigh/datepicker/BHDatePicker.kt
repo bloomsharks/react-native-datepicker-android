@@ -124,10 +124,10 @@ class BHDatePicker @JvmOverloads constructor(
     private fun onChange() {
         val date = getCurrentDate().toString()
         callback?.onDateSelected(getCurrentDate().toDateString())
-        postReactEvent(date)
+        postReactEvent(getCurrentDateString())
     }
 
-    private fun getCurrentDate(): CustomDate {
+    private fun getCurrentDateString(): String {
         val year = "${pYear.value}"
         val month = if (pMonth.value< 10) {
             "0${pMonth.value}"
@@ -139,8 +139,11 @@ class BHDatePicker @JvmOverloads constructor(
         } else {
             "${pDay.value}"
         }
-        val result = "$year-$month-$day"
-        return CustomDate(result)
+        return "$year-$month-$day"
+    }
+
+    private fun getCurrentDate(): CustomDate {
+        return CustomDate(getCurrentDateString())
     }
 
     private fun postReactEvent(selectedDate: String) {

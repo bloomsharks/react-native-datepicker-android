@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {StatusBar, Text, View} from 'react-native';
 import moment from 'moment';
-import DatePickerAndroid from 'react-native-date-picker-android';
+import DatePickerAndroid from 'react-native-datepicker-android';
 
 const App: () => React$Node = () => {
   
@@ -13,7 +13,7 @@ const App: () => React$Node = () => {
     .subtract(4, 'years')
     .toDate();
 
-  const [selectedDate, setSelectedDate] = useState(maxDate);
+  const [selectedDate, setSelectedDate] = useState(moment(maxDate).format("YYYY-MM-DD"));
 
   return (
     <View
