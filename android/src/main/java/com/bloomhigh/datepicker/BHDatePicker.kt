@@ -122,8 +122,9 @@ class BHDatePicker @JvmOverloads constructor(
     }
 
     private fun onChange() {
-        callback?.onDateSelected(getCurrentDate().toString())
-//        postReactEvent(result)
+        val date = getCurrentDate().toString()
+        callback?.onDateSelected(date)
+        postReactEvent(date)
     }
 
     private fun getCurrentDate(): CustomDate {
