@@ -1,5 +1,6 @@
 package com.bloomhigh.datepicker
 
+import java.text.DateFormatSymbols
 import java.util.*
 
 
@@ -67,7 +68,7 @@ object RecalcLogic {
             minMonth = START_MONTH,
             maxMonth = END_MONTH,
             minDay = START_DAY,
-            maxDay = calcMaxDayForDate(currentDate)
+            maxDay = calcMaxDayForDate(currentDate.year(), currentDate.month() - 1)
         )
     }
 
@@ -83,16 +84,18 @@ object RecalcLogic {
                 minimumDate.day()
             else
                 START_DAY,
-            maxDay = calcMaxDayForDate(currentDate)
+            maxDay = calcMaxDayForDate(currentDate.year(), currentDate.month() - 1)
         )
     }
 
-    fun calcMaxDayForDate(date: BHDatePicker.CustomDate): Int {
+    fun calcMaxDayForDate(year: Int, month: Int): Int {
         return GregorianCalendar(
-            date.year(),
-            date.month(),
-            date.day()
-        ).getActualMaximum(Calendar.DAY_OF_MONTH)
+            year,
+            month,
+            1
+        ).getActualMaximum(Calendar.DAY_OF_MONTH).also {
+            println("calcMaxDayForDate $year (${DateFormatSymbols().months[month]}) returned $it")
+        }
     }
 
     private fun calcMaximumYear(
@@ -105,7 +108,7 @@ object RecalcLogic {
             maxDay = if (currentDate.month() == maximumDate.month())
                 maximumDate.day()
             else
-                calcMaxDayForDate(currentDate),
+                calcMaxDayForDate(currentDate.year(), currentDate.month() - 1),
             minDay = START_DAY
         )
     }

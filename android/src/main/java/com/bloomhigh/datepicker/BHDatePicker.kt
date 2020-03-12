@@ -113,7 +113,7 @@ class BHDatePicker @JvmOverloads constructor(
         pYear.value = maximumDate.year()
 
         pDay.minValue = 1
-        pDay.maxValue = RecalcLogic.calcMaxDayForDate(getCurrentDate())
+        pDay.maxValue = RecalcLogic.calcMaxDayForDate(pYear.value, pMonth.value)
     }
 
     private val onChangeRunnable = {
@@ -123,7 +123,7 @@ class BHDatePicker @JvmOverloads constructor(
 
     private fun onChange() {
         val date = getCurrentDate().toString()
-        callback?.onDateSelected(date)
+        callback?.onDateSelected(getCurrentDate().toDateString())
         postReactEvent(date)
     }
 
@@ -144,6 +144,7 @@ class BHDatePicker @JvmOverloads constructor(
     }
 
     private fun postReactEvent(selectedDate: String) {
+        println("postReactEvent $selectedDate")
         val event: WritableMap = Arguments.createMap()
         event.putString("date", selectedDate)
         val reactContext = context as ReactContext
@@ -210,9 +211,11 @@ class BHDatePicker @JvmOverloads constructor(
         fun month() = x[1].toInt()
         fun day() = x[2].toInt()
 
-        override fun toString() = "${year()}-${month()}-${day()}"
+        override fun toString() = "${year()}-${month() - 1}-${day()}"
 
-        private fun sum(): Int = year() + month() + day()
+        fun toDateString() = "${year()}-${DateFormatSymbols().months[month() - 1]}-${day()}"
+
+        private fun sum(): Int = "${year()}${month()}${day()}".toInt()
 
         fun isAfter(then: CustomDate): Boolean {
             return this.sum() > then.sum()

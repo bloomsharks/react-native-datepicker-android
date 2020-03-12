@@ -1,10 +1,20 @@
 import React, {useState} from 'react';
 import {StatusBar, Text, View} from 'react-native';
-
+import moment from 'moment';
 import DatePickerAndroid from 'react-native-date-picker-android';
 
 const App: () => React$Node = () => {
-  const [selectedDate, setSelectedDate] = useState('empty');
+  
+  const minDate = moment()
+    .subtract(100, 'years')
+    .toDate();
+
+  const maxDate = moment()
+    .subtract(4, 'years')
+    .toDate();
+
+  const [selectedDate, setSelectedDate] = useState(maxDate);
+
   return (
     <View
       style={{
@@ -14,7 +24,8 @@ const App: () => React$Node = () => {
         justifyContent: 'center',
       }}>
       <StatusBar barStyle="dark-content" />
-      <Text style={{color: 'black'}}>{selectedDate}</Text>
+      <Text style={{color: 'black'}}>{moment(selectedDate).format('YYYY-MM-DD')}</Text>
+      {console.log(selectedDate)}
       <DatePickerAndroid
         style={{
           width: '100%',
@@ -22,11 +33,12 @@ const App: () => React$Node = () => {
           position: 'absolute',
           bottom: 0,
         }}
-        value="2014-05-12"
-        minDate="1920-03-11"
-        maxDate="2016-03-11"
+        value={moment(selectedDate).format('YYYY-MM-DD')}
+        minDate={moment(minDate).format('YYYY-MM-DD')}
+        maxDate={moment(maxDate).format('YYYY-MM-DD')}
         onValueChange={event => {
-          setSelectedDate(event.date);
+          console.log(`onValueChange ${event.date}`)
+          setSelectedDate(moment(event.date).format('YYYY-MM-DD'));
         }}
       />
     </View>

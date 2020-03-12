@@ -11,6 +11,7 @@ class DatePickerAndroidManager : SimpleViewManager<BHDatePicker>() {
     }
 
     public override fun createViewInstance(c: ThemedReactContext): BHDatePicker {
+        println("CORONA")
         return BHDatePicker(c)
     }
 
@@ -20,6 +21,7 @@ class DatePickerAndroidManager : SimpleViewManager<BHDatePicker>() {
 
     @ReactProp(name = "minDate")
     fun setMinDate(view: BHDatePicker, minDate: String?) {
+        println("CORONA min")
         if (minDate != null) {
             view.setMinDate(minDate)
         }
