@@ -84,14 +84,6 @@ object RecalcLogic {
         )
     }
 
-    fun calcMaxDayForDate(year: Int, month: Int): Int {
-        return GregorianCalendar(
-            year,
-            month - 1,
-            1
-        ).getActualMaximum(Calendar.DAY_OF_MONTH)
-    }
-
     private fun calcMaximumYear(
         currentDate: BHDatePicker.CustomDate,
         maximumDate: BHDatePicker.CustomDate
@@ -105,6 +97,14 @@ object RecalcLogic {
                 calcMaxDayForDate(currentDate.year(), currentDate.month()),
             minDay = START_DAY
         )
+    }
+
+    fun calcMaxDayForDate(year: Int, month: Int): Int {
+        return GregorianCalendar(
+            year,
+            month - 1,
+            1
+        ).getActualMaximum(Calendar.DAY_OF_MONTH)
     }
 
 }

@@ -13,6 +13,7 @@ import com.facebook.react.bridge.ReactContext
 import com.facebook.react.bridge.WritableMap
 import com.facebook.react.uimanager.events.RCTEventEmitter
 import java.text.DateFormatSymbols
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -205,7 +206,9 @@ class BHDatePicker @JvmOverloads constructor(
             return "$year-$month-$day"
         }
 
-        private fun sum(): Int = "${year()}${month()}${day()}".toInt()
+        private fun sum(): Long {
+            return SimpleDateFormat("yyyy-mm-dd").parse(this.toString()).time
+        }
 
         fun isAfter(then: CustomDate): Boolean {
             return this.sum() > then.sum()
