@@ -207,7 +207,7 @@ class BHDatePicker @JvmOverloads constructor(
         }
 
         private fun sum(): Long {
-            return SimpleDateFormat("yyyy-mm-dd").parse(this.toString()).time
+            return SimpleDateFormat("yyyy-MM-dd").parse(this.toString()).time
         }
 
         fun isAfter(then: CustomDate): Boolean {
