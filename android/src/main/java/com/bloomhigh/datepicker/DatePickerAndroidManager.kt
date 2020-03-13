@@ -11,7 +11,6 @@ class DatePickerAndroidManager : SimpleViewManager<BHDatePicker>() {
     }
 
     public override fun createViewInstance(c: ThemedReactContext): BHDatePicker {
-        println("CORONA")
         return BHDatePicker(c)
     }
 
@@ -21,7 +20,6 @@ class DatePickerAndroidManager : SimpleViewManager<BHDatePicker>() {
 
     @ReactProp(name = "minDate")
     fun setMinDate(view: BHDatePicker, minDate: String?) {
-        println("CORONA min")
         if (minDate != null) {
             view.setMinDate(minDate)
         }
@@ -43,11 +41,11 @@ class DatePickerAndroidManager : SimpleViewManager<BHDatePicker>() {
 
     override fun getExportedCustomBubblingEventTypeConstants(): MutableMap<String, Any> {
         return MapBuilder.builder<String, Any>()
-                .put(
-                        "topChange",
-                        MapBuilder.of(
-                                "phasedRegistrationNames",
-                                MapBuilder.of("bubbled", "onChange")))
-                .build()
+            .put(
+                "topChange",
+                MapBuilder.of(
+                    "phasedRegistrationNames",
+                    MapBuilder.of("bubbled", "onChange")))
+            .build()
     }
 }

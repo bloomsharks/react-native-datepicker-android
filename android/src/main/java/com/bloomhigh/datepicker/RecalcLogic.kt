@@ -1,6 +1,5 @@
 package com.bloomhigh.datepicker
 
-import java.text.DateFormatSymbols
 import java.util.*
 
 
@@ -48,7 +47,6 @@ object RecalcLogic {
         maximumDate: BHDatePicker.CustomDate,
         minimumDate: BHDatePicker.CustomDate
     ): RecalcResult {
-        println("recalcMinMax currentDate:$currentDate; minimumDate:$minimumDate; maximumDate:$maximumDate;")
         return when (currentDate.year()) {
             maximumDate.year() -> calcMaximumYear(
                 currentDate = currentDate,
@@ -63,12 +61,11 @@ object RecalcLogic {
     }
 
     private fun calcMid(currentDate: BHDatePicker.CustomDate): RecalcResult {
-        println("calcMid currentDate:$currentDate;")
         return RecalcResult(
             minMonth = START_MONTH,
             maxMonth = END_MONTH,
             minDay = START_DAY,
-            maxDay = calcMaxDayForDate(currentDate.year(), currentDate.month() - 1)
+            maxDay = calcMaxDayForDate(currentDate.year(), currentDate.month())
         )
     }
 
@@ -76,7 +73,6 @@ object RecalcLogic {
         currentDate: BHDatePicker.CustomDate,
         minimumDate: BHDatePicker.CustomDate
     ): RecalcResult {
-        println("calcMinimumYear currentDate:$currentDate; minimumDate:$minimumDate;")
         return RecalcResult(
             minMonth = minimumDate.month(),
             maxMonth = END_MONTH,
@@ -84,18 +80,16 @@ object RecalcLogic {
                 minimumDate.day()
             else
                 START_DAY,
-            maxDay = calcMaxDayForDate(currentDate.year(), currentDate.month() - 1)
+            maxDay = calcMaxDayForDate(currentDate.year(), currentDate.month())
         )
     }
 
     fun calcMaxDayForDate(year: Int, month: Int): Int {
         return GregorianCalendar(
             year,
-            month,
+            month - 1,
             1
-        ).getActualMaximum(Calendar.DAY_OF_MONTH).also {
-            println("calcMaxDayForDate $year (${DateFormatSymbols().months[month]}) returned $it")
-        }
+        ).getActualMaximum(Calendar.DAY_OF_MONTH)
     }
 
     private fun calcMaximumYear(
@@ -108,7 +102,7 @@ object RecalcLogic {
             maxDay = if (currentDate.month() == maximumDate.month())
                 maximumDate.day()
             else
-                calcMaxDayForDate(currentDate.year(), currentDate.month() - 1),
+                calcMaxDayForDate(currentDate.year(), currentDate.month()),
             minDay = START_DAY
         )
     }

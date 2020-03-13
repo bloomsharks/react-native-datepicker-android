@@ -62,8 +62,10 @@ class BHDatePicker @JvmOverloads constructor(
         }
 
         val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
+        val month = c.get(Calendar.MONTH) + 1
         val day = c.get(Calendar.DAY_OF_MONTH)
+
+
 
         minimumDate = CustomDate("${year - DEFAULT_MAX_YEARS}-$month-$day")
         maximumDate = CustomDate("${year - DEFAULT_MIN_YEARS}-$month-$day")
@@ -123,13 +125,13 @@ class BHDatePicker @JvmOverloads constructor(
 
     private fun onChange() {
         val date = getCurrentDate().toString()
-        callback?.onDateSelected(getCurrentDate().toDateString())
+        callback?.onDateSelected(getCurrentDate().toString())
         postReactEvent(getCurrentDateString())
     }
 
     private fun getCurrentDateString(): String {
         val year = "${pYear.value}"
-        val month = if (pMonth.value< 10) {
+        val month = if (pMonth.value < 10) {
             "0${pMonth.value}"
         } else {
             "${pMonth.value}"
@@ -147,7 +149,6 @@ class BHDatePicker @JvmOverloads constructor(
     }
 
     private fun postReactEvent(selectedDate: String) {
-        println("postReactEvent $selectedDate")
         val event: WritableMap = Arguments.createMap()
         event.putString("date", selectedDate)
         val reactContext = context as ReactContext
@@ -158,37 +159,12 @@ class BHDatePicker @JvmOverloads constructor(
         )
     }
 
-    private fun setMaxMonth(maxMonth: Int) {
-        println("XPXPX setMaxMonth ${maxMonth - 1}")
-        pMonth.maxValue = maxMonth - 1
-    }
-
-    private fun setMinMonth(minMonth: Int) {
-        if(minMonth < 1) {
-            throw Exception("still using 0 index")
-        }
-        println("XPXPX setMinMonth $minMonth")
-        pMonth.minValue = minMonth
-    }
-
-    private fun setMaxDay(maxDay: Int) {
-        println("XPXPX setMaxDay $maxDay")
-        pDay.maxValue = maxDay
-    }
-
-    private fun setMinDay(minDay: Int) {
-        println("XPXPX setMinDay $minDay")
-        pDay.minValue = minDay
-    }
-
     fun setCurrentDate(value: String) {
         var current = CustomDate(value)
 
         if (current.isAfter(maximumDate)) {
             current = maximumDate
         }
-        println("setCurrentDate($current)")
-
         pDay.value = current.day()
         pMonth.value = current.month()
         pYear.value = current.year()
@@ -214,9 +190,20 @@ class BHDatePicker @JvmOverloads constructor(
         fun month() = x[1].toInt()
         fun day() = x[2].toInt()
 
-        override fun toString() = "${year()}-${month() - 1}-${day()}"
-
-        fun toDateString() = "${year()}-${DateFormatSymbols().months[month() - 1]}-${day()}"
+        override fun toString(): String {
+            val year = "${year()}"
+            val month = if (month() < 10) {
+                "0${month()}"
+            } else {
+                "${month()}"
+            }
+            val day = if (day() < 10) {
+                "0${day()}"
+            } else {
+                "${day()}"
+            }
+            return "$year-$month-$day"
+        }
 
         private fun sum(): Int = "${year()}${month()}${day()}".toInt()
 
